@@ -1,3 +1,5 @@
+//This code was provided on the Hacker Rank website. Task was to complete the reverseArray function.
+
 #include <bits/stdc++.h>
 
 using namespace std;
