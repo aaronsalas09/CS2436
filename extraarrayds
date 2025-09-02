@@ -1,4 +1,6 @@
 //This code was provided on the Hacker Rank website. Task was to complete the reverseArray function.
+//https://www.hackerrank.com/challenges/arrays-ds/problem
+//Aaron Salas
 
 #include <bits/stdc++.h>
 
