@@ -1,0 +1,56 @@
+#include <cmath>
+#include <cstdio>
+https://www.hackerrank.com/challenges/queue-using-two-stacks/problem
+
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <stack>
+using namespace std;
+
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    int q;
+    if(!(cin >> q)) return 0;
+    
+    stack<int> inStack;
+    stack<int> outStack;
+    
+    auto transfer = [&](){
+        if(outStack.empty()){
+            while(!inStack.empty()){
+                outStack.push(inStack.top());
+                inStack.pop();
+            }
+        }
+        
+    };
+    
+    for(int i = 0; i < q;i++){
+        int type;
+        cin >> type;
+        
+        if(type == 1){
+            int x;
+            cin >> x;
+            inStack.push(x);
+        }
+        else if(type == 2){
+            transfer();
+            if(!outStack.empty()){
+                outStack.pop();
+            }
+            
+        }
+        else if(type == 3){
+            transfer();
+            if(!outStack.empty()){
+                cout << outStack.top() << endl;
+            }
+        }
+    }
+    
+       
+    return 0;
+}
