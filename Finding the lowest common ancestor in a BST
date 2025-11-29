@@ -1,0 +1,70 @@
+https://www.hackerrank.com/challenges/binary-search-tree-lowest-common-ancestor/problem
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+struct Node{
+    int data;
+    Node* left;
+    Node* right;
+    
+    Node(int d): data(d), left(nullptr), right(nullptr){}
+    
+};
+//creates binary tree
+Node* insert(Node* root, int data){
+    if(!root) return new Node(data);
+    
+    if(data < root->data){
+        root->left = insert(root->left, data);
+    }
+    else{
+        root->right = insert(root->right, data);
+    }
+    return root;
+    
+}
+//finds lowest common ancestor 
+Node* lca(Node* root, int v1, int v2){
+    
+    if(!root) return nullptr;
+    
+    //if both values are smaller than root, LCA is in the left subtree
+    if(v1 < root->data && v2 < root->data){
+        return lca(root->left,v1,v2);
+    }
+    
+    //if both values are greater than root, LCA is in the right subtree
+    if(v1 > root->data && v2 > root->data){
+        return lca(root->right, v1,v2);
+    }
+    
+    return root;
+}
+
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    int n;
+    cin >> n;
+    
+    Node* root = nullptr;
+    
+    for(int i = 0; i < n;i++){
+        int x;
+        cin >> x;
+        root = insert(root, x);
+    }
+    
+    int v1, v2;
+    cin >> v1 >> v2;
+    
+    Node* ans = lca(root,v1,v2);
+    
+    cout << ans->data << endl;
+       
+    return 0;
+}
