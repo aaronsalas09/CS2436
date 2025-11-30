@@ -1,0 +1,41 @@
+https://leetcode.com/problems/course-schedule/description/
+
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        //adjacency list
+        vector<vector<int>> graph(numCourses);
+
+        //inDegree array
+        vector<int> indegree(numCourses,0);
+
+        //build the graph
+        for(auto &p: prerequisites){
+            int a = p[0]; //to take a
+            int b = p[1]; //must take b first
+            graph[b].push_back(a);
+            indegree[a]++;
+        }
+
+        //queue for coures with no prereqs
+        queue<int> q;
+        for(int i = 0; i < numCourses;i++){
+            if(indegree[i] == 0) q.push(i);
+        }
+
+        int taken = 0; //count processed courses
+
+        //bfs topological sort
+        while(!q.empty()){
+            int course = q.front();
+            q.pop();
+            taken++;
+
+            for(int next: graph[course]){
+                indegree[next]--;
+                if(indegree[next] == 0) q.push(next);
+            }
+        }
+        return taken == numCourses;
+    }
+};
