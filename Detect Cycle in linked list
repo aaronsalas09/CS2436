@@ -1,0 +1,73 @@
+https://www.hackerrank.com/challenges/detect-whether-a-linked-list-contains-a-cycle/problem
+
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+struct Node {
+    int data;
+    Node* next;
+    Node(int d) : data(d), next(nullptr) {}
+};
+
+// ----- cycle detection: return 1 if cycle, else 0 -----
+int has_cycle(Node* head) {
+    if (!head || !head->next) return 0;
+
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast && fast->next) {
+        slow = slow->next;           // move 1 step
+        fast = fast->next->next;     // move 2 steps
+
+        if (slow == fast) {          // met inside the cycle
+            return 1;
+        }
+    }
+    return 0;                        // fast hit null -> no cycle
+}
+
+int main() {
+    int t;                  // number of test cases
+    if (!(cin >> t)) return 0;
+
+    while (t--) {
+        int index;
+        int n;
+
+        cin >> index;       // where the last node should link (0-based, -1 = no cycle)
+        cin >> n;           // number of nodes
+
+        if (n <= 0) {
+            cout << 0 << "\n";
+            continue;
+        }
+
+        vector<Node*> nodes(n);
+        for (int i = 0; i < n; ++i) {
+            int val;
+            cin >> val;
+            nodes[i] = new Node(val);
+        }
+
+        // build straight list
+        for (int i = 0; i < n - 1; ++i) {
+            nodes[i]->next = nodes[i + 1];
+        }
+        Node* head = nodes[0];
+
+        // create cycle if index is valid
+        if (index >= 0 && index < n) {
+            nodes[n - 1]->next = nodes[index];
+        }
+
+        cout << has_cycle(head) << "\n";
+    }
+
+    return 0;
+}
